@@ -41,7 +41,7 @@ def test_spatially_aware_nn(dtype, device):
     t0 = time.time()
     nn_idx = spatially_aware_nn(x, y, pos_x, pos_y, pos_dist_threshold)
     print('GPU runtime %.4f;' % (time.time() - t0), end=' ')
-
+    
     cpu_x = x.data.cpu().numpy()
     
     cpu_y = y.data.cpu().numpy()
@@ -52,11 +52,12 @@ def test_spatially_aware_nn(dtype, device):
     
     t0 = time.time()
     pos_dist = np.max(np.abs(cpu_pos_x[:, np.newaxis, :] - cpu_pos_y[np.newaxis, :, :]), axis=2)
-    valid = pos_dist > pos_dist_threshold
+    not_valid = pos_dist <= pos_dist_threshold
     pos_dist = None
     descr_sim = np.dot(cpu_x, np.transpose(cpu_y))
-    minf = -10
-    cpu_nn_idx = np.argmax(minf * (1 - valid) + descr_sim, axis=1)
+    minf = float("-inf")
+    descr_sim[not_valid] = minf
+    cpu_nn_idx = np.argmax(descr_sim, axis=1)
     print('CPU runtime %.4f' % (time.time() - t0), end=' ')
 
     assert np.array_equal(nn_idx.data.cpu().numpy(), cpu_nn_idx)

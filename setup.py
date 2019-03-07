@@ -11,7 +11,7 @@ if CUDA_HOME is not None:
  
     ]
 
-__version__ = '0.0.0'
+__version__ = '0.0.1'
 url = 'https://github.com/mihaidusmanu/pytorch-sann'
 
 setup_requires = ['pytest-runner']
@@ -26,7 +26,7 @@ setup(
     author_email='mihai.dusmanu@inf.ethz.ch',
     url=url,
     download_url='{}/archive/{}.tar.gz'.format(url, __version__),
-    keywords=['pytorch', 'nn', 'features', 'negative-mining', 'local-features'],
+    keywords=['pytorch', 'nn', 'features', 'negative-mining', 'local-features', 'guided-matching'],
     install_requires=install_requires,
     setup_requires=setup_requires,
     tests_require=tests_require,
